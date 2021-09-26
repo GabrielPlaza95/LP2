@@ -5,8 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Triangle extends Figure {
-    int x, y, w, h;
-	Color borderColor, fillColor;
+    //int x, y, w, h;
+	//Color borderColor, fillColor;
 
     public Triangle(int x, int y, int w, int h, Color border, Color fill) {
         this.x = x;

@@ -6,8 +6,9 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 public class Ellipse extends Figure {
-    int x, y, w, h;
-	Color borderColor, fillColor;
+    //int x, y, w, h;
+	//Color borderColor, fillColor;
+	Ellipse2D.Float el;
 
     public Ellipse(int x, int y, int w, int h, Color border, Color fill) {
         this.x = x;
@@ -16,6 +17,8 @@ public class Ellipse extends Figure {
         this.h = h;
 		this.borderColor = border;
 		this.fillColor = fill;
+
+		this.el = new Ellipse2D.Float();
     }
 
     void print() {
@@ -24,7 +27,10 @@ public class Ellipse extends Figure {
     }
 
 	public void paint(Graphics2D g2d) {
-		Ellipse2D el = new Ellipse2D.Float(this.x, this.y, this.w, this.h);
+		this.el.x = this.x;
+		this.el.y = this.y;
+		this.el.width = this.w;
+		this.el.height = this.h;
 
 		g2d.setColor(this.fillColor);
 		g2d.fill(el);
