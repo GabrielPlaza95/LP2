@@ -6,8 +6,6 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 public class Ellipse extends Figure {
-    //int x, y, w, h;
-	//Color borderColor, fillColor;
 	Ellipse2D.Float el;
 
     public Ellipse(int x, int y, int w, int h, Color border, Color fill) {

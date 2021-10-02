@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class App {
@@ -15,19 +15,24 @@ public class App {
 }
 
 class Frame extends JFrame {
-	ArrayList<Figure> figureList;
+	LinkedList<Figure> figureList;
 	Figure focus;
+	boolean dragging;
+	int px, py;
 
     public Frame () {
 		Random rand = new Random();
 
-        this.setTitle("Java2D");
+        this.setTitle("Vetor");
         this.setSize(1000, 1000);
         this.setVisible(true);
 		this.getContentPane().setBackground(Color.white);
 
-		this.figureList = new ArrayList<Figure>();
+		this.figureList = new LinkedList<Figure>();
 		this.focus = null;
+		this.dragging = false;
+		this.px = 0;
+		this.py = 0;
 
         this.addWindowListener (
             new WindowAdapter() {
@@ -41,35 +46,48 @@ class Frame extends JFrame {
 			new MouseAdapter() {
 				public void mousePressed (MouseEvent event) {
 					Point point = event.getPoint();
-					 
-					int x = point.x;
-					int y = point.y;
 
 					//System.out.printf("(%d,%d)\n", x, y);
 					 
 					focus = null;
 					for (Figure figure: figureList) {
-						if (figure.hit(x, y)) {
+						if (figure.hit(point.x, point.y)) {
 							//System.out.println("HIT");
 							focus = figure;
 							//break;
+							dragging = true;
+							px = point.x;
+							py = point.y;
 						}
+					}
+					if (focus != null) {
+						figureList.remove(focus);
+						figureList.add(focus);
 					}
 					repaint();
 				}
+			 
+				public void mouseReleased(MouseEvent event) {
+					dragging = false;
+					px = 0;
+					py = 0;
+				}
+
 			}
 		);
-			 
-				//public void mouseReleased(MouseEvent event) {
-				//}
-
-				//public void mouseDragged(MouseEvent event) {
-				//	Point p = event.getPoint();
-
-
-				//}
-			//}
-		//);
+		this.addMouseMotionListener (
+			new MouseMotionAdapter() {
+				public void mouseDragged(MouseEvent event) {
+					if (focus != null) {
+						Point point = event.getPoint();
+						int dx = point.x - px; px = point.x;
+						int dy = point.y - py; py = point.y;
+						focus.drag(dx, dy);
+						repaint();
+					}
+				}
+			}
+		);
 
 		//this.addMouseMotionsListener (
 		//	new MouseAdapter() {
@@ -83,20 +101,25 @@ class Frame extends JFrame {
 					if (evt.getKeyChar() == 'e') {
 						figureList.add(new Ellipse(425, 450, 150, 100, Color.black, Color.white));
 						repaint();
-					} 
+					}
 
 					if (evt.getKeyChar() == 'r') {
 						figureList.add(new Rectangle(425, 450, 150, 100, Color.black, Color.white));
 						repaint();
-					} 
+					}
 
 					if (evt.getKeyChar() == 't') {
 						figureList.add(new Triangle(425, 450, 150, 100, Color.black, Color.white));
 						repaint();
-					} 
+					}
 
 					if (evt.getKeyChar() == 'l') {
 						figureList.add(new Line(400, 500, 200, 0, Color.black));
+						repaint();
+					}
+
+					if ((evt.getKeyCode() == KeyEvent.VK_DELETE || evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) && focus != null) {
+						figureList.remove(focus);
 						repaint();
 					} 
 				}

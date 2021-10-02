@@ -5,9 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Rectangle extends Figure {
-    //int x, y, w, h;
-	//Color borderColor, fillColor;
-
     public Rectangle(int x, int y, int w, int h, Color border, Color fill) {
         this.x = x;
         this.y = y;

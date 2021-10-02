@@ -16,7 +16,11 @@ public abstract class Figure {
 		this.borderColor = color;
 	}
 
-	void drag(int dx, int dy) {
+	public void setFillColor(Color color) {
+		this.fillColor = color;
+	}
+
+	public void drag(int dx, int dy) {
 		this.x += dx;
 		this.y += dy;
 	}
