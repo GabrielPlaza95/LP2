@@ -25,6 +25,11 @@ public abstract class Figure {
 		this.y += dy;
 	}
 
+	public void rescale(int dw, int dh) {
+		this.w += dw;
+		this.h += dh;
+	}
+
 	public abstract boolean hit(int x, int y);
 
 	public abstract void paint(Graphics2D g2d); 

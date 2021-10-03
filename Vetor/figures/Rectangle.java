@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
+import java.lang.Math;
 
 public class Rectangle extends Figure {
 	Rectangle2D.Float rect; 	
@@ -25,10 +26,10 @@ public class Rectangle extends Figure {
     }
 
 	public void paint(Graphics2D g2d) {
-		this.rect.x = this.x;
-		this.rect.y = this.y;
-		this.rect.width = this.w;
-		this.rect.height = this.h;
+		this.rect.x = Math.min(this.x, this.x + this.w);
+		this.rect.y = Math.min(this.y, this.y + this.h);
+		this.rect.width = Math.abs(this.w);
+		this.rect.height = Math.abs(this.h);
 
 		g2d.setColor(this.fillColor);
 		g2d.fill(rect);

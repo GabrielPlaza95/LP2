@@ -17,8 +17,8 @@ public class App {
 class Frame extends JFrame {
 	LinkedList<Figure> figureList;
 	Figure focus;
-	boolean dragging;
 	int px, py;
+	int mouseButton;
 
     public Frame () {
 		Random rand = new Random();
@@ -30,7 +30,6 @@ class Frame extends JFrame {
 
 		this.figureList = new LinkedList<Figure>();
 		this.focus = null;
-		this.dragging = false;
 		this.px = 0;
 		this.py = 0;
 
@@ -46,16 +45,12 @@ class Frame extends JFrame {
 			new MouseAdapter() {
 				public void mousePressed (MouseEvent event) {
 					Point point = event.getPoint();
+					mouseButton = event.getButton();	
 
-					//System.out.printf("(%d,%d)\n", x, y);
-					 
 					focus = null;
 					for (Figure figure: figureList) {
 						if (figure.hit(point.x, point.y)) {
-							//System.out.println("HIT");
 							focus = figure;
-							//break;
-							dragging = true;
 							px = point.x;
 							py = point.y;
 						}
@@ -68,13 +63,13 @@ class Frame extends JFrame {
 				}
 			 
 				public void mouseReleased(MouseEvent event) {
-					dragging = false;
 					px = 0;
 					py = 0;
+					mouseButton = MouseEvent.NOBUTTON;	
 				}
-
 			}
 		);
+
 		this.addMouseMotionListener (
 			new MouseMotionAdapter() {
 				public void mouseDragged(MouseEvent event) {
@@ -82,18 +77,21 @@ class Frame extends JFrame {
 						Point point = event.getPoint();
 						int dx = point.x - px; px = point.x;
 						int dy = point.y - py; py = point.y;
-						focus.drag(dx, dy);
+						//System.out.format("drag %d\n", mouseButton);
+						switch (mouseButton)
+						{
+						case MouseEvent.BUTTON1:
+							focus.drag(dx, dy);
+							break;
+						case MouseEvent.BUTTON3:
+							focus.rescale(dx, dy);
+							break;
+						}
 						repaint();
 					}
 				}
 			}
 		);
-
-		//this.addMouseMotionsListener (
-		//	new MouseAdapter() {
-		//		public void mouseDragged (MouseEvent evt) {}
-		///	}
-		//);
 
 		this.addKeyListener (
 			new KeyAdapter() {
