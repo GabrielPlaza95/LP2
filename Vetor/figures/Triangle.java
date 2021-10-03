@@ -5,8 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Triangle extends Figure {
-    //int x, y, w, h;
-	//Color borderColor, fillColor;
+	Polygon poly;
 
     public Triangle(int x, int y, int w, int h, Color border, Color fill) {
         this.x = x;
@@ -15,6 +14,8 @@ public class Triangle extends Figure {
         this.h = h;
 		this.borderColor = border;
 		this.fillColor = fill;
+
+		this.poly = null;
     }
 
     void print() {
@@ -26,13 +27,17 @@ public class Triangle extends Figure {
 		int x[] = {this.x, this.x, this.x + this.w};
 		int y[] = {this.y, this.y + this.h, this.y};
 
-		Polygon poly = new Polygon(x, y, 3);
+		this.poly = new Polygon(x, y, 3);
 
 		g2d.setColor(this.fillColor);
 		g2d.fill(poly);
 
         g2d.setPaint(this.borderColor);
 		g2d.draw(poly);
+	}
+	
+	public boolean hit (int x, int y) {
+		return this.poly.contains(x, y);
 	}
 }
 

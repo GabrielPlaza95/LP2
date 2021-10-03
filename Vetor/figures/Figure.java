@@ -25,13 +25,7 @@ public abstract class Figure {
 		this.y += dy;
 	}
 
-	public boolean hit(int x, int y) {
-		//print();
-		int rx = this.w / 2;
-		int ry = this.h / 2;
-		return Math.abs(x - this.x - rx) <= rx
-			&& Math.abs(y - this.y - ry) <= ry;
-	}
+	public abstract boolean hit(int x, int y);
 
 	public abstract void paint(Graphics2D g2d); 
 }

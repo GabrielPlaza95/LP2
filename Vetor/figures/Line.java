@@ -6,8 +6,6 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 public class Line extends Figure {
-    //int x, y, w, h;
-	//Color borderColor, fillColor;
 	Line2D.Float ln;
 
     public Line(int x, int y, int w, int h, Color border) {
@@ -33,6 +31,10 @@ public class Line extends Figure {
 
         g2d.setPaint(this.borderColor);
 		g2d.draw(ln);
+	}
+
+	public boolean hit (int x, int y) {
+		return this.ln.intersects(x - 20, y - 20, 40, 40); 
 	}
 }
 

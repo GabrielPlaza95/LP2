@@ -36,5 +36,9 @@ public class Ellipse extends Figure {
         g2d.setPaint(this.borderColor);
 		g2d.draw(el);
 	}
+	
+	public boolean hit (int x, int y) {
+		return this.el.contains(x, y);
+	}
 }
 
