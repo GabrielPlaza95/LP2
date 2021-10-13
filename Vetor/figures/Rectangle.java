@@ -38,7 +38,7 @@ public class Rectangle extends Figure {
 		g2d.draw(rect);
 	}
 	
-	public boolean hit (int x, int y) {
+	public boolean clicked (int x, int y) {
 		return this.rect.contains(x, y);
 	}
 }

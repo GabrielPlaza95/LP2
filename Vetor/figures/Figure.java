@@ -1,12 +1,13 @@
 package figures;
 
+import figures.visible.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import javax.swing.*;
 import java.lang.Math;
 
-public abstract class Figure {
+public abstract class Figure implements IVisible {
     int x, y, w, h;
 	Color borderColor, fillColor;
 
@@ -30,8 +31,8 @@ public abstract class Figure {
 		this.h += dh;
 	}
 
-	public abstract boolean hit(int x, int y);
+	//public abstract boolean clicked(int x, int y);
 
-	public abstract void paint(Graphics2D g2d); 
+	//public abstract void paint(Graphics2D g2d); 
 }
 

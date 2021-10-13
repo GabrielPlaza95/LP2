@@ -33,7 +33,7 @@ public class Line extends Figure {
 		g2d.draw(ln);
 	}
 
-	public boolean hit (int x, int y) {
+	public boolean clicked (int x, int y) {
 		return this.ln.intersects(x - 20, y - 20, 40, 40); 
 	}
 }

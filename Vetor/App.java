@@ -49,7 +49,7 @@ class Frame extends JFrame {
 
 					focus = null;
 					for (Figure figure: figureList) {
-						if (figure.hit(point.x, point.y)) {
+						if (figure.clicked(point.x, point.y)) {
 							focus = figure;
 							px = point.x;
 							py = point.y;
