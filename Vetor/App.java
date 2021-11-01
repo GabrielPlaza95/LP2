@@ -6,7 +6,8 @@ import java.awt.Point;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.LinkedList;
-import java.util.Random;
+//import java.util.Random;
+import java.io.*;
 
 public class App {
     public static void main (String[] args) {
@@ -16,19 +17,33 @@ public class App {
 
 class Frame extends JFrame {
 	LinkedList<Figure> figureList;
+	LinkedList<Button> menu;
 	Figure focus;
 	int px, py;
 	int mouseButton;
 
+	@SuppressWarnings("unchecked")
     public Frame () {
-		Random rand = new Random();
+		//Random rand = new Random();
 
         this.setTitle("Vetor");
         this.setSize(1000, 1000);
+
+		this.figureList = new LinkedList<Figure>();
+		this.menu = new LinkedList<Button>();
+
+		try {
+			FileInputStream f = new FileInputStream("proj.bin");
+			ObjectInputStream o = new ObjectInputStream(f);
+			this.figureList = (LinkedList<Figure>) o.readObject();
+			o.close();
+		} catch (Exception ex) {
+			System.out.println("Erro ao carregar figuras");
+		}
+
         this.setVisible(true);
 		this.getContentPane().setBackground(Color.white);
 
-		this.figureList = new LinkedList<Figure>();
 		this.focus = null;
 		this.px = 0;
 		this.py = 0;
@@ -36,6 +51,15 @@ class Frame extends JFrame {
         this.addWindowListener (
             new WindowAdapter() {
                 public void windowClosing (WindowEvent e) {
+					try {
+						FileOutputStream f = new FileOutputStream("proj.bin");
+						ObjectOutputStream o = new ObjectOutputStream(f);
+						o.writeObject(figureList);
+						o.flush();
+						o.close();
+					} catch (Exception ex) {
+						System.out.println("Erro ao salvar figuras");
+					}
                     System.exit(0);
                 }
             }
@@ -55,6 +79,13 @@ class Frame extends JFrame {
 							py = point.y;
 						}
 					}
+
+					for (Rectangle button: menu) {
+						if (button.clicked(point.x, point.y)) {
+							//button.create();
+						}
+					}
+
 					if (focus != null) {
 						figureList.remove(focus);
 						figureList.add(focus);
@@ -77,7 +108,6 @@ class Frame extends JFrame {
 						Point point = event.getPoint();
 						int dx = point.x - px; px = point.x;
 						int dy = point.y - py; py = point.y;
-						//System.out.format("drag %d\n", mouseButton);
 						switch (mouseButton)
 						{
 						case MouseEvent.BUTTON1:
