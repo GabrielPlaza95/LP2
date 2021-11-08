@@ -6,8 +6,8 @@ import java.awt.Point;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.LinkedList;
-//import java.util.Random;
 import java.io.*;
+import java.util.Objects;
 
 public class App {
     public static void main (String[] args) {
@@ -15,22 +15,33 @@ public class App {
     }
 }
 
-class Frame extends JFrame {
-	LinkedList<Figure> figureList;
-	LinkedList<Button> menu;
-	Figure focus;
-	int px, py;
-	int mouseButton;
+class Frame extends JFrame implements ActionListener {
+	private LinkedList<Figure> figureList;
+	private Figure focus;
+	private int px, py;
+	private int mouseButton;
+
+	JPanel panel = new JPanel();
+	JButton[] buttons = {
+		new JButton("Elipse"), //, leftButtonIcon),
+		new JButton("Retângulo"), //, middleButtonIcon),
+		new JButton("Triângulo"), // rightButtonIcon),
+		new JButton("Linha") // rightButtonIcon)
+	};
+
+	//LinkedList<ImageIcon> icons = {
+	//	createImageIcon("images/ellipse.gif"),
+	//	createImageIcon("images/rectangle.gif"),
+	//	createImageIcon("images/triangle.gif"),
+	//	createImageIcon("images/line.gif")
+	//};
 
 	@SuppressWarnings("unchecked")
     public Frame () {
-		//Random rand = new Random();
-
         this.setTitle("Vetor");
         this.setSize(1000, 1000);
 
 		this.figureList = new LinkedList<Figure>();
-		this.menu = new LinkedList<Button>();
 
 		try {
 			FileInputStream f = new FileInputStream("proj.bin");
@@ -41,12 +52,33 @@ class Frame extends JFrame {
 			System.out.println("Erro ao carregar figuras");
 		}
 
-        this.setVisible(true);
-		this.getContentPane().setBackground(Color.white);
+		this.setLayout(null);
+		//panel.setLayout(null);
+		this.setContentPane(panel);
+		panel.setLocation(0,0);
 
 		this.focus = null;
 		this.px = 0;
 		this.py = 0;
+
+		buttons[0].setActionCommand("e");
+		buttons[1].setActionCommand("r");
+		buttons[2].setActionCommand("t");
+		buttons[3].setActionCommand("l");
+
+		buttons[0].setToolTipText("Criar Elipse");
+		buttons[1].setToolTipText("Criar Retângulo");
+		buttons[2].setToolTipText("Criar Triângulo");
+		buttons[3].setToolTipText("Criar Linha");
+
+		for (JButton button: this.buttons) {
+			button.setBounds(50,100,95,30);  
+			button.addActionListener(this);
+			this.panel.add(button);  
+		}
+
+        this.setVisible(true);
+		this.getContentPane().setBackground(Color.white);
 
         this.addWindowListener (
             new WindowAdapter() {
@@ -77,12 +109,6 @@ class Frame extends JFrame {
 							focus = figure;
 							px = point.x;
 							py = point.y;
-						}
-					}
-
-					for (Rectangle button: menu) {
-						if (button.clicked(point.x, point.y)) {
-							//button.create();
 						}
 					}
 
@@ -166,4 +192,26 @@ class Frame extends JFrame {
 			figure.paint(g2d);
 		}
     }
+
+	public void actionPerformed (ActionEvent evt) {
+		if (Objects.equals(evt.getActionCommand(), "e")) {
+			figureList.add(new Ellipse(425, 450, 150, 100, Color.black, Color.white));
+			repaint();
+		}
+
+		if (Objects.equals(evt.getActionCommand(), "r")) {
+			figureList.add(new Rectangle(425, 450, 150, 100, Color.black, Color.white));
+			repaint();
+		}
+
+		if (Objects.equals(evt.getActionCommand(), "t")) {
+			figureList.add(new Triangle(425, 450, 150, 100, Color.black, Color.white));
+			repaint();
+		}
+
+		if (Objects.equals(evt.getActionCommand(), "l")) {
+			figureList.add(new Line(400, 500, 200, 0, Color.black));
+			repaint();
+		}
+	}
 }
