@@ -53,7 +53,6 @@ class Frame extends JFrame implements ActionListener {
 		}
 
 		this.setLayout(null);
-		//panel.setLayout(null);
 		this.setContentPane(panel);
 		panel.setLocation(0,0);
 
@@ -72,11 +71,13 @@ class Frame extends JFrame implements ActionListener {
 		buttons[3].setToolTipText("Criar Linha");
 
 		for (JButton button: this.buttons) {
-			button.setBounds(50,100,95,30);  
+			button.setBounds(50,100,100,50);  
 			button.addActionListener(this);
 			this.panel.add(button);  
 		}
 
+
+		this.setFocusable(true);
         this.setVisible(true);
 		this.getContentPane().setBackground(Color.white);
 
@@ -213,5 +214,7 @@ class Frame extends JFrame implements ActionListener {
 			figureList.add(new Line(400, 500, 200, 0, Color.black));
 			repaint();
 		}
+
+		requestFocus();
 	}
 }
