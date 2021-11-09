@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Triangle extends Figure {
-	Polygon poly;
+	private Polygon poly;
 
     public Triangle(int x, int y, int w, int h, Color border, Color fill) {
         this.x = x;
@@ -18,7 +18,7 @@ public class Triangle extends Figure {
 		this.poly = null;
     }
 
-    void print() {
+    public void print() {
         System.out.format("Triângulo retângulo de catetos (%d,%d) na posição (%d,%d).\n",
             this.w, this.h, this.x, this.y);
     }

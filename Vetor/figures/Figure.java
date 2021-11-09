@@ -9,10 +9,10 @@ import javax.swing.*;
 import java.lang.Math;
 
 public abstract class Figure implements IVisible, Serializable {
-    int x, y, w, h;
-	Color borderColor, fillColor;
+    protected int x, y, w, h;
+	protected Color borderColor, fillColor;
 
-    abstract void print();
+    public abstract void print();
 
 	public void setBorderColor(Color color) {
 		this.borderColor = color;
@@ -38,9 +38,5 @@ public abstract class Figure implements IVisible, Serializable {
 		this.w = w;
 		this.h = h;
 	}
-
-	//public abstract boolean clicked(int x, int y);
-
-	//public abstract void paint(Graphics2D g2d); 
 }
 

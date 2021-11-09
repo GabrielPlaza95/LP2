@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.lang.Math;
 
 public class Rectangle extends Figure {
-	Rectangle2D.Float rect; 	
+	private Rectangle2D.Float rect; 	
 
     public Rectangle(int x, int y, int w, int h, Color border, Color fill) {
         this.x = x;
@@ -20,7 +20,7 @@ public class Rectangle extends Figure {
 		this.rect = new Rectangle2D.Float();
     }
 
-    void print() {
+    public void print() {
         System.out.format("Retangulo de tamanho (%d,%d) na posicao (%d,%d).\n",
             this.w, this.h, this.x, this.y);
     }

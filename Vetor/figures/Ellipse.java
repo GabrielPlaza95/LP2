@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.lang.Math;
 
 public class Ellipse extends Figure {
-	Ellipse2D.Float el;
+	private Ellipse2D.Float el;
 
     public Ellipse(int x, int y, int w, int h, Color border, Color fill) {
         this.x = x;
@@ -20,7 +20,7 @@ public class Ellipse extends Figure {
 		this.el = new Ellipse2D.Float();
     }
 
-    void print() {
+    public void print() {
         System.out.format("Elipse de eixos (%d,%d) na posicao (%d,%d).\n",
             this.w, this.h, this.x, this.y);
     }

@@ -6,7 +6,7 @@ import java.awt.geom.*;
 import javax.swing.*;
 
 public class Line extends Figure {
-	Line2D.Float ln;
+	private Line2D.Float ln;
 
     public Line(int x, int y, int w, int h, Color border) {
         this.x = x;
@@ -18,7 +18,7 @@ public class Line extends Figure {
 		this.ln = new Line2D.Float();
     }
 
-    void print() {
+    public void print() {
         System.out.format("Segmento de reta de (%d,%d) a (%d,%d).\n",
             this.x, this.y, this.x + this.w, this.y + this.h);
     }
