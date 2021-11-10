@@ -22,6 +22,10 @@ public abstract class Figure implements IVisible, Serializable {
 		this.fillColor = color;
 	}
 
+	public Color getFillColor() {
+		return this.fillColor;
+	} 
+
 	public void drag(int dx, int dy) {
 		this.x += dx;
 		this.y += dy;

@@ -3,8 +3,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Dimension;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.util.LinkedList;
 import java.io.*;
 import java.util.Objects;
@@ -15,7 +17,7 @@ public class App {
     }
 }
 
-class Frame extends JFrame implements ActionListener {
+class Frame extends JFrame implements ActionListener, ChangeListener {
 	private LinkedList<Figure> figureList;
 	private Figure focus;
 	private int px, py;
@@ -27,6 +29,12 @@ class Frame extends JFrame implements ActionListener {
 		new JButton("Retângulo"), //, middleButtonIcon),
 		new JButton("Triângulo"), // rightButtonIcon),
 		new JButton("Linha") // rightButtonIcon)
+	};
+
+	JSlider[] sliders = {
+		new JSlider(JSlider.VERTICAL, 0, 255, 0),
+		new JSlider(JSlider.VERTICAL, 0, 255, 0),
+		new JSlider(JSlider.VERTICAL, 0, 255, 0)
 	};
 
 	//LinkedList<ImageIcon> icons = {
@@ -76,6 +84,16 @@ class Frame extends JFrame implements ActionListener {
 			this.panel.add(button);  
 		}
 
+		sliders[0].setName("G");
+		sliders[1].setName("B");
+		sliders[2].setName("R");
+		
+		for (JSlider slider: this.sliders) {
+			slider.setPreferredSize(new Dimension(20, 80)); 
+			slider.addChangeListener(this);
+			slider.setInverted(true);
+			this.panel.add(slider);  
+		}
 
 		this.setFocusable(true);
         this.setVisible(true);
@@ -110,6 +128,12 @@ class Frame extends JFrame implements ActionListener {
 							focus = figure;
 							px = point.x;
 							py = point.y;
+
+							Color fill = figure.getFillColor();
+
+							sliders[0].setValue(fill.getGreen());
+							sliders[1].setValue(fill.getBlue());
+							sliders[2].setValue(fill.getRed());
 						}
 					}
 
@@ -212,6 +236,30 @@ class Frame extends JFrame implements ActionListener {
 
 		if (Objects.equals(evt.getActionCommand(), "l")) {
 			figureList.add(new Line(400, 500, 200, 0, Color.black));
+			repaint();
+		}
+
+		requestFocus();
+	}
+
+	public void stateChanged (ChangeEvent evt) {
+		JSlider source = (JSlider) evt.getSource();
+
+		int val = (int) source.getValue();
+		Color fill = focus.getFillColor();
+
+		if (Objects.equals(source.getName(), "R")) {
+			focus.setFillColor(new Color(val, fill.getGreen(), fill.getBlue()));
+			repaint();
+		}
+
+		if (Objects.equals(source.getName(), "G")) {
+			focus.setFillColor(new Color(fill.getRed(), val, fill.getBlue()));
+			repaint();
+		}
+
+		if (Objects.equals(source.getName(), "B")) {
+			focus.setFillColor(new Color(fill.getRed(), fill.getGreen(), val));
 			repaint();
 		}
 
