@@ -25,10 +25,10 @@ class Frame extends JFrame implements ActionListener, ChangeListener {
 
 	JPanel panel = new JPanel();
 	JButton[] buttons = {
-		new JButton("Elipse"), //, leftButtonIcon),
-		new JButton("Retângulo"), //, middleButtonIcon),
-		new JButton("Triângulo"), // rightButtonIcon),
-		new JButton("Linha") // rightButtonIcon)
+		new JButton("Elipse"),
+		new JButton("Retângulo"),
+		new JButton("Triângulo"),
+		new JButton("Linha")
 	};
 
 	JSlider[] sliders = {
@@ -36,13 +36,6 @@ class Frame extends JFrame implements ActionListener, ChangeListener {
 		new JSlider(JSlider.VERTICAL, 0, 255, 0),
 		new JSlider(JSlider.VERTICAL, 0, 255, 0)
 	};
-
-	//LinkedList<ImageIcon> icons = {
-	//	createImageIcon("images/ellipse.gif"),
-	//	createImageIcon("images/rectangle.gif"),
-	//	createImageIcon("images/triangle.gif"),
-	//	createImageIcon("images/line.gif")
-	//};
 
 	@SuppressWarnings("unchecked")
     public Frame () {
@@ -91,10 +84,10 @@ class Frame extends JFrame implements ActionListener, ChangeListener {
 		for (JSlider slider: this.sliders) {
 			slider.setPreferredSize(new Dimension(20, 80)); 
 			slider.addChangeListener(this);
-			slider.setInverted(true);
 			this.panel.add(slider);  
 		}
 
+		this.panel.add(new JLabel("RGB"));
 		this.setFocusable(true);
         this.setVisible(true);
 		this.getContentPane().setBackground(Color.white);
@@ -130,6 +123,8 @@ class Frame extends JFrame implements ActionListener, ChangeListener {
 							py = point.y;
 
 							Color fill = figure.getFillColor();
+
+							if (fill == null) continue;
 
 							sliders[0].setValue(fill.getGreen());
 							sliders[1].setValue(fill.getBlue());
@@ -243,10 +238,14 @@ class Frame extends JFrame implements ActionListener, ChangeListener {
 	}
 
 	public void stateChanged (ChangeEvent evt) {
+		if (focus == null) return;
+
 		JSlider source = (JSlider) evt.getSource();
 
 		int val = (int) source.getValue();
 		Color fill = focus.getFillColor();
+
+		if (fill == null) return; // Linha
 
 		if (Objects.equals(source.getName(), "R")) {
 			focus.setFillColor(new Color(val, fill.getGreen(), fill.getBlue()));
